@@ -1,0 +1,93 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+
+.progresses {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;  /* Increase width of the progress bar container */
+    margin: 0 auto;
+}
+
+.line {
+    width: 300px;  /* Increase width of each line */
+    height: 6px;
+    background: #e0e0e0;
+    margin: 0 20px; /* Increase spacing between the steps */
+    transition: background-color 0.3s;
+}
+
+.active-line {
+    background: #7b63d1;
+}
+
+.steps {
+    display: flex;
+    background-color: #7b63d1;
+    color: #fff;
+    font-size: 14px;
+    width: 45px;  /* Increase width of each circle */
+    height: 45px;  /* Increase height of each circle */
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    position: relative;
+    transition: background-color 0.3s;
+}
+
+.steps-not-active {
+    display: flex;
+    background-color: #cec8dc;
+    color: #545260;
+    font-size: 14px;
+    font-weight: bold;
+    width: 45px;  /* Increase width of each circle */
+    height: 45px;  /* Increase height of each circle */
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    position: relative;
+    transition: background-color 0.3s;
+}
+
+.steps.active {
+    background-color: #7b63d1;
+    color: #fff;
+}
+
+.steps span {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.steps .fa-check {
+    font-size: 18px;
+    color: white;
+}
+
+.step-label {
+    font-size: 12px;
+    color: #333;
+    margin-top: 5px;
+    text-align: center;
+    transition: opacity 0.3s;
+    opacity: 0.6;
+}
+
+.steps.active .step-label {
+    opacity: 1;
+}
+
+/* For steps with numbers */
+.steps span {
+    font-size: 18px;
+    color: #fff;
+}
+
+.steps.active span {
+    color: white;  /* Active step will have a white check icon */
+}
+
+.steps:not(.active) span {
+    color: #ffffff;  /* Gray color for steps that are not active */
+}
