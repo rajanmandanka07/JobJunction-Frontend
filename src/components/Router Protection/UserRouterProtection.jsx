@@ -3,28 +3,23 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 const UserRouterProtection = (props) => {
-    const [cookies] = useCookies(["isUserLoggedIn", "role", "token"]);
+    const [cookies] = useCookies(["isUserLoggedIn", "token"]);
     const isUserLoggedIn = cookies.isUserLoggedIn;
-    const role = cookies.role;
     const token = cookies.token;
 
-    const navigate = useNavigate(); // Hook for navigation
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // If the user is not logged in, navigate them to the login page
-        console.log(isUserLoggedIn);
+        console.log("User: ", isUserLoggedIn, ", Toke: ", token);
         if (!isUserLoggedIn && !token) {
-            navigate("/login"); // Redirect to login page
+            navigate("/login");
         }
-    }, [isUserLoggedIn, navigate, token]); // Dependency array ensures it runs when isUserLoggedIn changes
+    }, [isUserLoggedIn, navigate, token]);
 
-    // If the user is logged in, render the children components
     if (!isUserLoggedIn) {
-        return null; // Return nothing while the navigation happens
+        return null;
     }
 
-    // If the user is logged in, render the children components
-    // eslint-disable-next-line react/prop-types
     return (<>{props.element}</>);
 };
 
