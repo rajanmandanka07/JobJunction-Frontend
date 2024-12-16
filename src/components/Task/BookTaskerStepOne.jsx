@@ -3,9 +3,6 @@ import React from "react";
 import "react-phone-input-2/lib/style.css";
 
 const BookTaskerStepOne = ({ formData, handleChange, nextStep }) => {
-    // Dummy data for Task Name and Task Category
-    const taskName = "Design a Website";
-    const taskCategory = "Web Development";
 
     return (
         <div className="m-5 d-flex justify-content-center mt-4">

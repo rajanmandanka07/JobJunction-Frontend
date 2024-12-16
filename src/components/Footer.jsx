@@ -5,15 +5,15 @@ import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
     const navigate = useNavigate();
-    const [cookies, , ] = useCookies(["isUserLoggedIn"]);
-    const isUserLoggedIn = cookies.isUserLoggedIn;
+    const [cookies] = useCookies(["token"]);
+    const token = cookies.token;
 
     const handleLinkClick = (e, targetRoute, navigate) => {
-        e.preventDefault(); // Prevent the default link behavior
-        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         setTimeout(() => {
-            navigate(targetRoute); // Navigate to the target route after scroll
-        }, 500); // 500ms delay to allow the scroll effect to finish
+            navigate(targetRoute);
+        }, 500);
     };
 
     return (
@@ -53,7 +53,7 @@ const Footer = () => {
                                     Home
                                 </Link>
                             </li>
-                            {!isUserLoggedIn && (
+                            {!token && (
                                 <>
                                     <li className="mb-2">
                                         <Link

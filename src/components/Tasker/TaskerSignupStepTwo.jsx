@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const TaskerSignupStepTwo = ({ formData, handleChange, nextStep, prevStep }) => {
     // Service options and their rates

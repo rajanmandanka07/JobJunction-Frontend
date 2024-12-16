@@ -300,40 +300,59 @@ const AvailableServices = () => {
                                             {service.category}
                                         </p>
                                     </div>
-                                    <Link
-                                        to={{
-                                            pathname: "/book-tasker",
-                                        }}
-                                        state={{
-                                            taskId: service.id,
-                                            taskName: service.title,
-                                            taskCategory: service.category,
-                                        }}
-                                        style={{
-                                            display: "inline-block", // Ensure it behaves like a block/button
-                                            backgroundColor: "#007bff",
-                                            color: "#fff",
-                                            border: "none",
-                                            borderRadius: "20px",
-                                            padding: "10px 20px",
-                                            fontSize: "15px",
-                                            textDecoration: "none",
-                                            textAlign: "center",
-                                            transition: "all 0.3s ease-in-out",
-                                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.backgroundColor = "#0056b3";
-                                            e.target.style.boxShadow = "0px 6px 8px rgba(0, 0, 0, 0.15)";
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.backgroundColor = "#007bff";
-                                            e.target.style.boxShadow = "0px 4px 6px rgba(0, 0, 0, 0.1)";
-                                        }}
-                                    >
+                                    {role === "tasker" ? (
+                                        <span
+                                            style={{
+                                                display: "inline-block",
+                                                backgroundColor: "#6c757d", // Disabled color
+                                                color: "#fff",
+                                                border: "none",
+                                                borderRadius: "20px",
+                                                padding: "10px 20px",
+                                                fontSize: "15px",
+                                                textDecoration: "none",
+                                                textAlign: "center",
+                                                cursor: "not-allowed",
+                                                opacity: 0.65,
+                                            }}
+                                        >
                                         Book Service
-                                    </Link>
-
+                                        </span>
+                                    ) : (
+                                        <Link
+                                            to={{
+                                                pathname: "/book-tasker",
+                                            }}
+                                            state={{
+                                                taskId: service.id,
+                                                taskName: service.title,
+                                                taskCategory: service.category,
+                                            }}
+                                            style={{
+                                                display: "inline-block",
+                                                backgroundColor: "#007bff",
+                                                color: "#fff",
+                                                border: "none",
+                                                borderRadius: "20px",
+                                                padding: "10px 20px",
+                                                fontSize: "15px",
+                                                textDecoration: "none",
+                                                textAlign: "center",
+                                                transition: "all 0.3s ease-in-out",
+                                                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                e.target.style.backgroundColor = "#0056b3";
+                                                e.target.style.boxShadow = "0px 6px 8px rgba(0, 0, 0, 0.15)";
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.target.style.backgroundColor = "#007bff";
+                                                e.target.style.boxShadow = "0px 4px 6px rgba(0, 0, 0, 0.1)";
+                                            }}
+                                        >
+                                            Book Service
+                                        </Link>
+                                    )}
                                 </div>
                             </div>
                         </motion.div>

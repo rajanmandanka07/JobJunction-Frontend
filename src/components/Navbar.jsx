@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/JobJunction.jpeg";
-import profileIcon from "../assets/Profile.jpg"; // Add a placeholder profile icon image
+import profileIcon from "../assets/Profile.jpg";
 import AuthModal from "./AuthModal";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
@@ -8,26 +8,25 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = () => {
     const [show, setShow] = useState(false);
-    const [cookies, , removeCookie] = useCookies(["isUserLoggedIn"]); // Access and manage cookies
+    const [cookies, , removeCookie] = useCookies(["token", "role"]); // Access and manage cookies
     const navigate = useNavigate();
     const location = useLocation();
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const isUserLoggedIn = cookies.isUserLoggedIn; // Check login state from the cookie
+    const token = cookies.token;
+    const role = cookies.role;
 
     const handleLogout = () => {
-        removeCookie("isUserLoggedIn", { path: "/" }); // Remove the login cookie
+        removeCookie("isUserLoggedIn", { path: "/" });
         removeCookie("role", { path: "/" });
         removeCookie("token", { path: "/" });
 
         if (location.pathname === "/profile") {
-            // Navigate to home only if the user is on /user-profile
             navigate("/");
         }
 
-        // Refresh the page to update the UI
         window.location.reload();
     };
 
@@ -72,7 +71,7 @@ const Navbar = () => {
                                 Available Services
                             </Link>
                         </li>
-                        {!isUserLoggedIn && (
+                        {!token && (
                             <>
                                 <li className="nav-item">
                                     <Link className="nav-link mx-2" to="/tasker-signup">
@@ -86,7 +85,7 @@ const Navbar = () => {
                                 </li>
                             </>
                         )}
-                        {isUserLoggedIn && (
+                        {token && (
                             <li className="nav-item dropdown">
                                 <div
                                     className="nav-link dropdown-toggle d-flex align-items-center"
@@ -116,6 +115,15 @@ const Navbar = () => {
                                         borderRadius: "5px",
                                     }}
                                 >
+                                    {role === "user" && (
+                                        <>
+                                            <li>
+                                                <Link className="dropdown-item" to="/user-pending-request">
+                                                    Pending Request
+                                                </Link>
+                                            </li>
+                                        </>
+                                    )}
                                     <li>
                                         <Link className="dropdown-item" to="/profile">
                                             Profile
@@ -137,6 +145,7 @@ const Navbar = () => {
                         )}
                     </ul>
                 </div>
+
                 {/* Auth Modal */}
                 <AuthModal show={show} handleClose={handleClose} />
             </div>
