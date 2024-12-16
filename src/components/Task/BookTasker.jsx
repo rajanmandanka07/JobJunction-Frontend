@@ -112,6 +112,7 @@ const BookTasker = () => {
                 <BookTaskerStepThree
                     formData={formData}
                     prevStep={prevStep}
+                    setFormData={setFormData}
                 />
             )}
         </div>

@@ -3,10 +3,12 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import {useCookies} from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
-const BookTaskerStepThree = ({ formData, prevStep }) => {
+const BookTaskerStepThree = ({ formData, prevStep, setFormData }) => {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [cookies] = useCookies(["token"]);
+    const navigate = useNavigate();
 
     const handleSubmit = async () => {
         if (isSubmitted) return; // Prevent multiple submissions
@@ -15,7 +17,7 @@ const BookTaskerStepThree = ({ formData, prevStep }) => {
         try {
             const response = await axios.post('http://localhost:5000/api/task/create-request', formData, {
                 headers: {
-                    Authorization: `Bearer ${cookies.token}`, // Attach the token in the header
+                    Authorization: `Bearer ${cookies.token}`,
                 },
             });
 
@@ -27,6 +29,20 @@ const BookTaskerStepThree = ({ formData, prevStep }) => {
                     hideProgressBar: true,
                     closeOnClick: true,
                     pauseOnHover: true,
+                    onClose: () => {
+                        setFormData({
+                            taskId: "",
+                            taskName: "",
+                            taskCategory: "",
+                            taskPrice: "",
+                            taskDescription: "",
+                            timeSlot: "",
+                            date: "",
+                            area: "",
+                            address: "",
+                        })
+                        navigate("/user-pending-request");
+                    }
                 });
             } else {
                 // Error notification
@@ -49,7 +65,7 @@ const BookTaskerStepThree = ({ formData, prevStep }) => {
             });
             console.error("Error:", error);
         } finally {
-            setIsSubmitted(false); // Reset submission state
+            setIsSubmitted(false);
         }
     };
 
