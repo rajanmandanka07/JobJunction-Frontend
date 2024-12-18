@@ -16,7 +16,7 @@ const UserPendingRequest = () => {
         // Fetch pending requests from the backend
         const fetchPendingRequests = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/api/task/user-pending-requests", {
+                const response = await axios.get("http://localhost:5000/api/task/pending-requests", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

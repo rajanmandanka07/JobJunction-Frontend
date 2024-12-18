@@ -9,9 +9,9 @@ const EditProfile = ({ profileData, setProfileData, setIsModalOpen }) => {
     const [cookies] = useCookies(["token"]);
 
     const serviceOptions = [
-        { name: "Web Development", rate: 50 },
-        { name: "Graphic Design", rate: 40 },
-        { name: "SEO Services", rate: 60 },
+        { name: "Plumbing", rate: 1500 },
+        { name: "Electrical Repair", rate: 1200 },
+        { name: "House Cleaning", rate: 2000 },
     ];
 
     useEffect(() => {

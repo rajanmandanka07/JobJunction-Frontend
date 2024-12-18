@@ -115,22 +115,18 @@ const Navbar = () => {
                                         borderRadius: "5px",
                                     }}
                                 >
-                                    {role === "user" && (
-                                        <>
-                                            <li>
-                                                <Link className="dropdown-item" to="/user-pending-request">
-                                                    Pending Request
-                                                </Link>
-                                            </li>
-                                        </>
-                                    )}
+                                    <li>
+                                        <Link className="dropdown-item" to="/user-pending-request">
+                                            Pending Request
+                                        </Link>
+                                    </li>
                                     <li>
                                         <Link className="dropdown-item" to="/profile">
                                             Profile
                                         </Link>
                                     </li>
                                     <li>
-                                        <hr className="dropdown-divider" />
+                                        <hr className="dropdown-divider"/>
                                     </li>
                                     <li>
                                         <button
@@ -147,7 +143,7 @@ const Navbar = () => {
                 </div>
 
                 {/* Auth Modal */}
-                <AuthModal show={show} handleClose={handleClose} />
+                <AuthModal show={show} handleClose={handleClose}/>
             </div>
         </nav>
     );
