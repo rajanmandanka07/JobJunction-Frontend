@@ -121,6 +121,11 @@ const Navbar = () => {
                                         </Link>
                                     </li>
                                     <li>
+                                        <Link className="dropdown-item" to="/accepted-request">
+                                            Accepted Request
+                                        </Link>
+                                    </li>
+                                    <li>
                                         <Link className="dropdown-item" to="/profile">
                                             Profile
                                         </Link>

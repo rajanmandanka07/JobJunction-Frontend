@@ -15,6 +15,7 @@ import loader from "./assets/three-dots.svg";
 import UserRouterProtection from "./components/Router Protection/UserRouterProtection.jsx";
 import BookTasker from "./components/Task/BookTask/BookTasker.jsx";
 import PendingRequest from "./components/Task/PendingRequest.jsx";
+import AcceptedRequest from "./components/Task/AcceptedRequest.jsx";
 
 function App() {
     const [loading, setLoading] = useState(true);
@@ -60,6 +61,7 @@ function App() {
                                     <Route path="/book-tasker" element={<UserRouterProtection element={<BookTasker />} />} />
                                     <Route path="/available-services" element={<AvailableServices />} />
                                     <Route path="/pending-request" element={<UserRouterProtection element={<PendingRequest/>} />} />
+                                    <Route path="/accepted-request" element={<UserRouterProtection element={<AcceptedRequest/>} />} />
 
                                     {/* Redirect to login page if no route is found */}
                                     <Route path="*" element={<Login />} />
