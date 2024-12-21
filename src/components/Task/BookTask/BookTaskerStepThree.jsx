@@ -41,7 +41,7 @@ const BookTaskerStepThree = ({ formData, prevStep, setFormData }) => {
                             area: "",
                             address: "",
                         })
-                        navigate("/user-pending-request");
+                        navigate("/pending-request");
                     }
                 });
             } else {

@@ -116,7 +116,7 @@ const Navbar = () => {
                                     }}
                                 >
                                     <li>
-                                        <Link className="dropdown-item" to="/user-pending-request">
+                                        <Link className="dropdown-item" to="/pending-request">
                                             Pending Request
                                         </Link>
                                     </li>

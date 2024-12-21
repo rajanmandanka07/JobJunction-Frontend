@@ -78,17 +78,18 @@ const ServiceCategories = () => {
 
     const [activeTab, setActiveTab] = useState('Home Services');
     const handleBookTasker = ({ id, taskName, taskCategory }) => {
-        // Example: Navigate to a booking page with task details
-        console.log("Booking Details:", { id, taskName, taskCategory });
 
         // If using React Router, navigate to another page
-        navigate('/book-tasker', {
-            state: {
-                taskId: id,
-                taskName,
-                taskCategory,
-            },
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+            navigate('/book-tasker', {
+                state: {
+                    taskId: id,
+                    taskName,
+                    taskCategory,
+                },
+            });
+        }, 500);
     };
 
     return (

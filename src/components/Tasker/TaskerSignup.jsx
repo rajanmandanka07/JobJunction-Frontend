@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import TaskerSignupStepOne from "./TaskerSignupStepOne.jsx";
 import TaskerSignupStepTwo from "./TaskerSignupStepTwo.jsx";
-import "./TaskerSignup.css";
+import "../FormCss.css";
 import TaskerSignupStepThree from "./TaskerSignupStepThree.jsx";
 
 const TaskerSignup = () => {

@@ -209,12 +209,16 @@ const AvailableServices = () => {
 
             {/* Search Component */}
             <motion.div
-                initial={{opacity: 0, y: 30}}
+                initial={{opacity: 0, y: 20}}
                 animate={{opacity: 1, y: 0}}
-                transition={{duration: 0.3, ease: "easeOut", delay: 0.3}} // Adjust delay as needed
+                transition={{
+                    duration: 0.5, // Adjust the duration for a softer feel
+                    ease: [0.25, 0.1, 0.25, 1], // Cubic Bezier for smooth transition
+                }}
             >
                 <SearchServices onSearch={setSearchQuery} searchQuery={searchQuery}/>
             </motion.div>
+
 
             {/* Service Cards */}
             <div className="row g-4 mb-4">

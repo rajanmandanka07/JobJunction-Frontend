@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { Card, Row, Col, Container, Spinner, Alert } from "react-bootstrap";
+import { Card, Row, Container, Spinner, Alert } from "react-bootstrap";
 import { motion } from "framer-motion";
 import axios from "axios";
 
-const UserPendingRequest = () => {
+const PendingRequest = () => {
     const [pendingRequests, setPendingRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [cookies] = useCookies(["token"]);
+    const [cookies] = useCookies(["token", "role"]);
 
+    const role = cookies.role;
     const token = cookies.token;
 
     useEffect(() => {
@@ -34,21 +35,36 @@ const UserPendingRequest = () => {
     }, [token]);
 
     return (
-        <Container style={{ padding: "20px" }}>
+        <Container style={{padding: "20px"}}>
             {/* Heading */}
             <div className="text-center mb-4">
-                <h2 className="fw-bold" style={{ fontSize: "2.5rem", color: "#3c5365" }}>
-                    Pending <span style={{ color: "#456fca" }}>Requests</span>
-                </h2>
-                <p className="text-muted" style={{ maxWidth: "600px", margin: "0 auto" }}>
-                    View all your pending service requests that are yet to be accepted by a tasker.
-                </p>
+                {role === "tasker" ? (
+                    // Tasker Perspective
+                    <>
+                        <h2 className="fw-bold" style={{fontSize: "2.5rem", color: "#3c5365"}}>
+                            Assigned <span style={{color: "#456fca"}}>Tasks</span>
+                        </h2>
+                        <p className="text-muted" style={{maxWidth: "600px", margin: "0 auto"}}>
+                            View all the tasks assigned to you that are pending acceptance or completion.
+                        </p>
+                    </>
+                ) : (
+                    // User Perspective
+                    <>
+                        <h2 className="fw-bold" style={{fontSize: "2.5rem", color: "#3c5365"}}>
+                            Pending <span style={{color: "#456fca"}}>Requests</span>
+                        </h2>
+                        <p className="text-muted" style={{maxWidth: "600px", margin: "0 auto"}}>
+                            View all your pending service requests that are yet to be accepted by a tasker.
+                        </p>
+                    </>
+                )}
             </div>
 
             {/* Loading or Error State */}
             {loading ? (
                 <div className="text-center">
-                    <Spinner animation="border" variant="primary" />
+                    <Spinner animation="border" variant="primary"/>
                     <p className="text-muted mt-3">Loading pending requests...</p>
                 </div>
             ) : error ? (
@@ -76,7 +92,7 @@ const UserPendingRequest = () => {
                                         {/* Image or Placeholder */}
                                         <Card.Img
                                             variant="top"
-                                            src={request.image || "https://via.placeholder.com/150"}
+                                            src={request.taskImage || "https://via.placeholder.com/150"}
                                             alt={request.taskName}
                                             style={{
                                                 height: "200px",
@@ -136,8 +152,9 @@ const UserPendingRequest = () => {
                                                 </Card.Text>
                                             </div>
 
-                                            {/* Action Button */}
-                                            <div className="d-flex justify-content-end mt-auto">
+                                            {/* Role-Specific Action Buttons */}
+                                            <div className="d-flex justify-content-between mt-auto">
+                                                {/* Common View Request Button */}
                                                 <a
                                                     href="#"
                                                     className="btn btn-primary"
@@ -149,35 +166,49 @@ const UserPendingRequest = () => {
                                                         textDecoration: "none",
                                                         transition: "all 0.3s ease-in-out",
                                                     }}
-                                                    onMouseEnter={(e) => {
-                                                        e.target.style.backgroundColor = "#0056b3";
-                                                        e.target.style.boxShadow = "0px 6px 8px rgba(0, 0, 0, 0.15)";
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                        e.target.style.backgroundColor = "#007bff";
-                                                        e.target.style.boxShadow = "0px 4px 6px rgba(0, 0, 0, 0.1)";
-                                                    }}
                                                 >
                                                     View Request
                                                 </a>
+
+                                                {/* Accept Task Button (Only for tasker) */}
+                                                {role === "tasker" && (
+                                                    <a
+                                                        href="#"
+                                                        className="btn btn-success"
+                                                        style={{
+                                                            borderRadius: "20px",
+                                                            padding: "10px 20px",
+                                                            fontSize: "15px",
+                                                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                                            textDecoration: "none",
+                                                            transition: "all 0.3s ease-in-out",
+                                                        }}
+                                                    >
+                                                        Accept Task
+                                                    </a>
+                                                )}
                                             </div>
+
+
                                         </Card.Body>
                                     </Card>
-
-
                                 </motion.div>
                             ))}
                         </Row>
-
                     ) : (
                         <div className="text-center">
-                            <p className="text-muted">No pending requests at the moment.</p>
+                            <p className="text-muted">
+                                {role === "tasker"
+                                    ? "No tasks available for you at the moment."
+                                    : "No pending requests at the moment."}
+                            </p>
                         </div>
                     )}
                 </>
+
             )}
         </Container>
     );
 };
 
-export default UserPendingRequest;
+export default PendingRequest;

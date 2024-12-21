@@ -13,8 +13,8 @@ import AvailableServices from "./components/AvailableServices/AvailableServices.
 import Profile from "./components/Profile/Profile.jsx";
 import loader from "./assets/three-dots.svg";
 import UserRouterProtection from "./components/Router Protection/UserRouterProtection.jsx";
-import BookTasker from "./components/Task/BookTasker.jsx";
-import UserPendingRequest from "./components/User/UserPendingRequest.jsx";
+import BookTasker from "./components/Task/BookTask/BookTasker.jsx";
+import PendingRequest from "./components/Task/PendingRequest.jsx";
 
 function App() {
     const [loading, setLoading] = useState(true);
@@ -59,7 +59,7 @@ function App() {
                                     <Route path="/profile" element={<UserRouterProtection element={<Profile />} />} />
                                     <Route path="/book-tasker" element={<UserRouterProtection element={<BookTasker />} />} />
                                     <Route path="/available-services" element={<AvailableServices />} />
-                                    <Route path="/user-pending-request" element={<UserRouterProtection element={<UserPendingRequest/>} />} />
+                                    <Route path="/pending-request" element={<UserRouterProtection element={<PendingRequest/>} />} />
 
                                     {/* Redirect to login page if no route is found */}
                                     <Route path="*" element={<Login />} />

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import "./BookTasker.css"; // Reuse the TaskerSignup CSS or create a new one
-import BookTaskerStepOne from "./BookTaskerStepOne";
-import BookTaskerStepTwo from "./BookTaskerStepTwo";
-import BookTaskerStepThree from "./BookTaskerStepThree";
+import "../../FormCss.css";
+import BookTaskerStepOne from "./BookTaskerStepOne.jsx";
+import BookTaskerStepTwo from "./BookTaskerStepTwo.jsx";
+import BookTaskerStepThree from "./BookTaskerStepThree.jsx";
 
 const BookTasker = () => {
     const location = useLocation();
