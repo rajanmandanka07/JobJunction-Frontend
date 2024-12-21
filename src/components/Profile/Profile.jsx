@@ -158,7 +158,7 @@ const Profile = () => {
                                         }}
                                     >
                                         <span>{service.name}</span>
-                                        <span style={{ fontWeight: "bold" }}>${service.rate}/hr</span>
+                                        <span style={{ fontWeight: "bold" }}>₹{service.rate}</span>
                                     </ListGroup.Item>
                                 ))}
                             </ListGroup>

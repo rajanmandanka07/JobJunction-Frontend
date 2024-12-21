@@ -1,18 +1,345 @@
-import React from "react";
+import React, {useState, useEffect } from "react";
+
+const Category = [
+    "Home Services",
+    "Personal Assistance",
+    "Handyman Services",
+    "Delivery Services",
+    "Personal Assistance",
+    "Beauty & Wellness",
+];
+
+const Service = [
+    {
+        id: 1,
+        name: "Plumbing",
+        category: "Home Services",
+        rate: "230"
+    },
+    {
+        id: 2,
+        name: "Electrical Repair",
+        category: "Home Services",
+        rate: "560"
+    },
+    {
+        id: 3,
+        name: "House Cleaning",
+        category: "Home Services",
+        rate: "430"
+    },
+    {
+        id: 4,
+        name: "Gardening",
+        category: "Handyman Services",
+        rate: "315"
+    },
+    {
+        id: 5,
+        name: "Carpentry",
+        category: "Home Services",
+        rate: "290"
+    },
+    {
+        id: 6,
+        name: "Pest Control",
+        category: "Home Services",
+        rate: "365"
+    },
+    {
+        id: 7,
+        name: "Painting Services",
+        category: "Home Services",
+        rate: "425"
+    },
+    {
+        id: 8,
+        name: "Appliance Repair",
+        category: "Home Services",
+        rate: "265"
+    },
+    {
+        id: 9,
+        name: "Car Wash",
+        category: "Handyman Services",
+        rate: "370"
+    },
+    {
+        id: 10,
+        name: "Babysitting",
+        category: "Personal Assistance",
+        rate: "150"
+    },
+    {
+        id: 11,
+        name: "Dog Walking",
+        category: "Personal Assistance",
+        rate: "175"
+    },
+    {
+        id: 12,
+        name: "Home Renovation",
+        category: "Home Services",
+        rate: "170"
+    },
+    {
+        id: 13,
+        name: "Event Planning",
+        category: "Personal Assistance",
+        rate: "315"
+    },
+    {
+        id: 14,
+        name: "Fitness Training",
+        category: "Beauty & Wellness",
+        rate: "500"
+    },
+    {
+        id: 15,
+        name: "Computer Repair",
+        category: "Handyman Services",
+        rate: "470"
+    },
+    {
+        id: 16,
+        name: "Photography",
+        category: "Personal Assistance",
+        rate: "400"
+    },
+    {
+        id: 17,
+        name: "Yoga Classes",
+        category: "Beauty & Wellness",
+        rate: "365"
+    },
+    {
+        id: 18,
+        name: "Mobile Repair",
+        category: "Handyman Services",
+        rate: "120"
+    },
+    {
+        id: 19,
+        name: "Interior Design",
+        category: "Handyman Services",
+        rate: "530"
+    },
+    {
+        id: 20,
+        name: "Pet Grooming Services",
+        category: "Personal Assistance",
+        rate: "460"
+    },
+    {
+        id: 21,
+        name: "Food Delivery",
+        category: "Delivery Services",
+        rate: "150"
+    },
+    {
+        id: 22,
+        name: "Parcel Delivery",
+        category: "Delivery Services",
+        rate: "450"
+    },
+    {
+        id: 23,
+        name: "Furniture Moving",
+        category: "Delivery Services",
+        rate: "410"
+    },
+    {
+        id: 24,
+        name: "Document Courier",
+        category: "Delivery Services",
+        rate: "515"
+    },
+    {
+        id: 25,
+        name: "Grocery Delivery",
+        category: "Delivery Services",
+        rate: "350"
+    },
+    {
+        id: 26,
+        name: "Medicine Delivery",
+        category: "Delivery Services",
+        rate: "420"
+    },
+    {
+        id: 27,
+        name: "Gift Delivery",
+        category: "Delivery Services",
+        rate: "120"
+    },
+    {
+        id: 28,
+        name: "E-commerce Package Delivery",
+        category: "Delivery Services",
+        rate: "300"
+    },
+    {
+        id: 29,
+        name: "TV Mounting",
+        category: "Handyman Services",
+        rate: "430"
+    },
+    {
+        id: 30,
+        name: "Furniture Assembly",
+        category: "Handyman Services",
+        rate: "260"
+    },
+    {
+        id: 31,
+        name: "Appliance Installation",
+        category: "Handyman Services",
+        rate: "245"
+    },
+    {
+        id: 32,
+        name: "Door Repair",
+        category: "Handyman Services",
+        rate: "595"
+    },
+    {
+        id: 33,
+        name: "Window Repair",
+        category: "Handyman Services",
+        rate: "345"
+    },
+    {
+        id: 34,
+        name: "Faucet Installation",
+        category: "Handyman Services",
+        rate: "110"
+    },
+    {
+        id: 35,
+        name: "Ceiling Fan Installation",
+        category: "Handyman Services",
+        rate: "225"
+    },
+    {
+        id: 36,
+        name: "Cabinet Installation",
+        category: "Handyman Services",
+        rate: "450"
+    },
+    {
+        id: 37,
+        name: "Errands",
+        category: "Personal Assistance",
+        rate: "380"
+    },
+    {
+        id: 38,
+        name: "Grocery Shopping",
+        category: "Personal Assistance",
+        rate: "275"
+    },
+    {
+        id: 39,
+        name: "Pet Sitting",
+        category: "Personal Assistance",
+        rate: "570"
+    },
+    {
+        id: 40,
+        name: "Event Planning",
+        category: "Personal Assistance",
+        rate: "270"
+    },
+    {
+        id: 41,
+        name: "Travel Arrangements",
+        category: "Personal Assistance",
+        rate: "255"
+    },
+    {
+        id: 42,
+        name: "Personal Shopping",
+        category: "Personal Assistance",
+        rate: "315"
+    },
+    {
+        id: 43,
+        name: "Virtual Assistant",
+        category: "Personal Assistance",
+        rate: "270"
+    },
+    {
+        id: 44,
+        name: "Laundry Services",
+        category: "Personal Assistance",
+        rate: "255"
+    },
+    {
+        id: 45,
+        name: "Haircuts & Styling",
+        category: "Beauty & Wellness",
+        rate: "345"
+    },
+    {
+        id: 46,
+        name: "Facial Treatments",
+        category: "Beauty & Wellness",
+        rate: "365"
+    },
+    {
+        id: 47,
+        name: "Massage Therapy",
+        category: "Beauty & Wellness",
+        rate: "390"
+    },
+    {
+        id: 48,
+        name: "Nail Services",
+        category: "Beauty & Wellness",
+        rate: "260"
+    },
+    {
+        id: 49,
+        name: "Makeup Services",
+        category: "Beauty & Wellness",
+        rate: "510"
+    },
+    {
+        id: 50,
+        name: "Yoga Instruction",
+        category: "Beauty & Wellness",
+        rate: "185"
+    },
+    {
+        id: 51,
+        name: "Personal Training",
+        category: "Beauty & Wellness",
+        rate: "545"
+    },
+    {
+        id: 52,
+        name: "Skin Care Treatments",
+        category: "Beauty & Wellness",
+        rate: "530"
+    }
+];
 
 const TaskerSignupStepTwo = ({ formData, handleChange, nextStep, prevStep }) => {
-    // Service options and their rates
-    const serviceOptions = [
-        { name: "Cleaning", rate: 25 },
-        { name: "Plumbing", rate: 30 },
-        { name: "Electrician", rate: 35 },
-        { name: "Gardening", rate: 20 },
-        { name: "Carpentry", rate: 40 },
-    ];
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [serviceOptions, setServiceOptions] = useState([]);
+
+    const handleCategoryChange = (e) => {
+        const selected = e.target.value;
+        setSelectedCategory(selected);
+
+        // Filter services based on selected category
+        const filteredServices = Service.filter((service) => service.category === selected);
+        setServiceOptions(filteredServices);
+    };
 
     // Add a service to the formData
     const addService = (service) => {
-        // Ensure the service is not already in the list
+        if (!service) return;
         if (!formData.services.find((item) => item.name === service.name)) {
             const updatedServices = [...formData.services, service];
             handleChange({ target: { name: "services", value: updatedServices } });
@@ -24,6 +351,14 @@ const TaskerSignupStepTwo = ({ formData, handleChange, nextStep, prevStep }) => 
         const updatedServices = formData.services.filter((item) => item.name !== serviceName);
         handleChange({ target: { name: "services", value: updatedServices } });
     };
+
+    // Update service options when category changes
+    useEffect(() => {
+        if (selectedCategory) {
+            const filteredServices = Service.filter((service) => service.category === selectedCategory);
+            setServiceOptions(filteredServices);
+        }
+    }, [selectedCategory]);
 
     return (
         <div className="m-5 d-flex justify-content-center mt-4">
@@ -97,7 +432,42 @@ const TaskerSignupStepTwo = ({ formData, handleChange, nextStep, prevStep }) => 
                         </select>
                     </div>
 
-                    {/* Service Selection */}
+                    {/* Category Dropdown */}
+                    <div className="mb-3">
+                        <label
+                            htmlFor="category"
+                            className="form-label"
+                            style={{
+                                fontWeight: "500",
+                                color: "#5a6b81",
+                            }}
+                        >
+                            Select Category
+                        </label>
+                        <select
+                            className="form-select"
+                            id="category"
+                            name="category"
+                            defaultValue=""
+                            onChange={handleCategoryChange}
+                            style={{
+                                borderRadius: "8px",
+                                border: "1px solid #d1d5db",
+                                padding: "10px",
+                            }}
+                        >
+                            <option value="" disabled>
+                                Choose a category
+                            </option>
+                            {Category.map((category) => (
+                                <option key={category} value={category}>
+                                    {category}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* Service Dropdown */}
                     <div className="mb-3">
                         <label
                             htmlFor="services"
@@ -116,6 +486,7 @@ const TaskerSignupStepTwo = ({ formData, handleChange, nextStep, prevStep }) => 
                             onChange={(e) =>
                                 addService(serviceOptions.find((service) => service.name === e.target.value))
                             }
+                            defaultValue=""
                             style={{
                                 borderRadius: "8px",
                                 border: "1px solid #d1d5db",
@@ -126,8 +497,8 @@ const TaskerSignupStepTwo = ({ formData, handleChange, nextStep, prevStep }) => 
                                 Choose a service
                             </option>
                             {serviceOptions.map((service) => (
-                                <option key={service.name} value={service.name}>
-                                    {service.name}
+                                <option key={service.id} value={service.name}>
+                                    {service.name} - ₹{service.rate}
                                 </option>
                             ))}
                         </select>
@@ -157,32 +528,32 @@ const TaskerSignupStepTwo = ({ formData, handleChange, nextStep, prevStep }) => 
                                         }}
                                     >
                                         <span>{service.name}</span>
-                                        <span style={{display: "flex", alignItems: "center", gap: "10px"}}>
-                                            <span style={{fontSize: "1rem", fontWeight: "500"}}>
-                                                ${service.rate}/hr
-                                            </span>
-                                            <button
-                                                type="button"
-                                                className="btn btn-sm btn-danger d-flex align-items-center justify-content-center"
-                                                style={{
-                                                    borderRadius: "8px",
-                                                    fontWeight: "bold",
-                                                    width: "28px",
-                                                    height: "28px",
-                                                    display: "inline-flex",
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    padding: "0",
-                                                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-                                                    transition: "transform 0.2s ease-in-out",
-                                                }}
-                                                onMouseOver={(e) => (e.target.style.transform = "scale(1.1)")}
-                                                onMouseOut={(e) => (e.target.style.transform = "scale(1)")}
-                                                onClick={() => removeService(service.name)}
-                                            >
-                                                <i className="bi bi-x-lg" style={{fontSize: "1rem"}}></i>
-                                            </button>
-                                        </span>
+                                        <span style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                                    <span style={{ fontSize: "1rem", fontWeight: "500" }}>
+                                        ₹{service.rate}
+                                    </span>
+                                    <button
+                                        type="button"
+                                        className="btn btn-sm btn-danger d-flex align-items-center justify-content-center"
+                                        style={{
+                                            borderRadius: "8px",
+                                            fontWeight: "bold",
+                                            width: "28px",
+                                            height: "28px",
+                                            display: "inline-flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            padding: "0",
+                                            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+                                            transition: "transform 0.2s ease-in-out",
+                                        }}
+                                        onMouseOver={(e) => (e.target.style.transform = "scale(1.1)")}
+                                        onMouseOut={(e) => (e.target.style.transform = "scale(1)")}
+                                        onClick={() => removeService(service.name)}
+                                    >
+                                        <i className="bi bi-x-lg" style={{ fontSize: "1rem" }}></i>
+                                    </button>
+                                </span>
                                     </li>
                                 ))}
                             </ul>

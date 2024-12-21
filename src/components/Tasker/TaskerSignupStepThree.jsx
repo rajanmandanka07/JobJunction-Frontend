@@ -194,7 +194,7 @@ const TaskerSignupStepThree = ({ formData, prevStep, setFormData }) => {
                                     }}
                                 >
                                     <span>{service.name}</span>
-                                    <span>${service.rate}/hr</span>
+                                    <span>₹{service.rate}</span>
                                 </li>
                             ))}
                         </ul>
