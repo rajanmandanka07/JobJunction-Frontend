@@ -12,10 +12,12 @@ import TaskerSignup from "./components/Tasker/TaskerSignup.jsx";
 import AvailableServices from "./components/AvailableServices/AvailableServices.jsx";
 import Profile from "./components/Profile/Profile.jsx";
 import loader from "./assets/three-dots.svg";
-import UserRouterProtection from "./components/Router Protection/UserRouterProtection.jsx";
+import RouterProtection from "./components/Router Protection/RouterProtection.jsx";
 import BookTasker from "./components/Task/BookTask/BookTasker.jsx";
 import PendingRequest from "./components/Task/PendingRequest.jsx";
-import AcceptedRequest from "./components/Task/AcceptedRequest.jsx";
+import AcceptedTask from "./components/Task/AcceptedTask.jsx";
+import CompletedTask from "./components/Task/CompletedTask.jsx";
+import CanceledTask from "./components/Task/CanceledTask.jsx";
 
 function App() {
     const [loading, setLoading] = useState(true);
@@ -57,11 +59,13 @@ function App() {
                                     <Route path="/login" element={<Login />} />
                                     <Route path="/user-signup" element={<UserSignup />} />
                                     <Route path="/tasker-signup" element={<TaskerSignup />} />
-                                    <Route path="/profile" element={<UserRouterProtection element={<Profile />} />} />
-                                    <Route path="/book-tasker" element={<UserRouterProtection element={<BookTasker />} />} />
+                                    <Route path="/profile" element={<RouterProtection element={<Profile />} />} />
+                                    <Route path="/book-tasker" element={<RouterProtection element={<BookTasker />} />} />
                                     <Route path="/available-services" element={<AvailableServices />} />
-                                    <Route path="/pending-request" element={<UserRouterProtection element={<PendingRequest/>} />} />
-                                    <Route path="/accepted-request" element={<UserRouterProtection element={<AcceptedRequest/>} />} />
+                                    <Route path="/pending-request" element={<RouterProtection element={<PendingRequest/>} />} />
+                                    <Route path="/accepted-request" element={<RouterProtection element={<AcceptedTask/>} />} />
+                                    <Route path="/completed-task" element={<RouterProtection element={<CompletedTask/>} />} />
+                                    <Route path="/canceled-task" element={<RouterProtection element={<CanceledTask/>} />} />
 
                                     {/* Redirect to login page if no route is found */}
                                     <Route path="*" element={<Login />} />

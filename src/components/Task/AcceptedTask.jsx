@@ -42,7 +42,7 @@ const dummyAcceptedRequests = [
     }
 ];
 
-const AcceptedRequest = () => {
+const AcceptedTask = () => {
     const [acceptedRequests, setAcceptedRequests] = useState(dummyAcceptedRequests);
     const [cookies] = useCookies(["token", "role"]);
 
@@ -156,21 +156,38 @@ const AcceptedRequest = () => {
                                         View Request
                                     </a>
                                     {role === "tasker" && (
-                                        <a
-                                            href="#"
-                                            className="btn btn-danger"
-                                            style={{
-                                                borderRadius: "20px",
-                                                padding: "10px 20px",
-                                                fontSize: "15px",
-                                                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                                textDecoration: "none",
-                                                transition: "all 0.3s ease-in-out"
-                                            }}
-                                        >
-                                            Mark Complete
-                                        </a>
+                                        <>
+                                            <a
+                                                href="#"
+                                                className="btn btn-success"
+                                                style={{
+                                                    borderRadius: "20px",
+                                                    padding: "10px 20px",
+                                                    fontSize: "15px",
+                                                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                                    textDecoration: "none",
+                                                    transition: "all 0.3s ease-in-out",
+                                                }}
+                                            >
+                                                Mark Complete
+                                            </a>
+                                            <a
+                                                href="#"
+                                                className="btn btn-secondary"
+                                                style={{
+                                                    borderRadius: "20px",
+                                                    padding: "10px 20px",
+                                                    fontSize: "15px",
+                                                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                                    textDecoration: "none",
+                                                    transition: "all 0.3s ease-in-out"
+                                                }}
+                                            >
+                                                Cancel
+                                            </a>
+                                        </>
                                     )}
+
                                 </div>
                             </Card.Body>
                         </Card>
@@ -181,4 +198,4 @@ const AcceptedRequest = () => {
     );
 };
 
-export default AcceptedRequest;
+export default AcceptedTask;

@@ -126,6 +126,16 @@ const Navbar = () => {
                                         </Link>
                                     </li>
                                     <li>
+                                        <Link className="dropdown-item" to="/completed-task">
+                                            Completed Task
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link className="dropdown-item" to="/canceled-task">
+                                            Canceled Task
+                                        </Link>
+                                    </li>
+                                    <li>
                                         <Link className="dropdown-item" to="/profile">
                                             Profile
                                         </Link>

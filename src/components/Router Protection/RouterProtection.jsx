@@ -2,7 +2,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-const UserRouterProtection = (props) => {
+const RouterProtection = (props) => {
     const [cookies] = useCookies(["isUserLoggedIn", "token"]);
     const isUserLoggedIn = cookies.isUserLoggedIn;
     const token = cookies.token;
@@ -23,4 +23,4 @@ const UserRouterProtection = (props) => {
     return (<>{props.element}</>);
 };
 
-export default UserRouterProtection;
+export default RouterProtection;
