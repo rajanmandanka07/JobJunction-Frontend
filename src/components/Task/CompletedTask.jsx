@@ -1,82 +1,89 @@
-import React, { useState } from "react";
-import { Container, Row, Card } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Container, Row, Card, Spinner, Alert } from "react-bootstrap";
 import { motion } from "framer-motion";
 import { useCookies } from "react-cookie";
-
-const dummyCompletedTasks = [
-    {
-        _id: "1",
-        taskName: "Fix Leaky Faucet",
-        taskCategory: "Plumbing",
-        taskPrice: "$50",
-        completionDate: "2024-12-10",
-        area: "Downtown",
-        address: "123 Main Street",
-        taskImage: "https://via.placeholder.com/150"
-    },
-    {
-        _id: "2",
-        taskName: "Assemble Furniture",
-        taskCategory: "Carpentry",
-        taskPrice: "$75",
-        completionDate: "2024-12-12",
-        area: "Midtown",
-        address: "456 Center Ave",
-        taskImage: "https://via.placeholder.com/150"
-    },
-    {
-        _id: "3",
-        taskName: "Garden Maintenance",
-        taskCategory: "Gardening",
-        taskPrice: "$60",
-        completionDate: "2024-12-15",
-        area: "Westside",
-        address: "789 West Road",
-        taskImage: "https://via.placeholder.com/150"
-    }
-];
+import axios from "axios";
 
 const CompletedTask = () => {
-    const [completedTasks] = useState(dummyCompletedTasks);
-    const [cookies] = useCookies(["role"]);
+    const [completedTasks, setCompletedTasks] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [cookies] = useCookies(["token","role"]);
 
     const role = cookies.role;
+    const token = cookies.token;
+
+    useEffect(() => {
+        const fetchCompletedTasks = async () => {
+            try {
+                const response = await axios.get("http://localhost:5000/api/task/completed-task", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setCompletedTasks(response.data.completedTasks); // Ensure your API returns the correct data format
+                setLoading(false);
+            } catch (err) {
+                setError("Failed to load completed tasks.");
+                setLoading(false);
+            }
+        };
+
+        fetchCompletedTasks();
+    }, []);
+
+    if (loading) {
+        return (
+            <Container className="text-center py-5">
+                <Spinner animation="border" variant="primary" />
+                <p>Loading completed tasks...</p>
+            </Container>
+        );
+    }
+
+    if (error) {
+        return (
+            <Container className="text-center py-5">
+                <Alert variant="danger">{error}</Alert>
+            </Container>
+        );
+    }
+
     return (
-        <Container style={{padding: "20px"}}>
+        <Container style={{ padding: "20px" }}>
             <div className="text-center mb-4">
                 {role === "tasker" ? (
                     <>
-                        <h2 className="fw-bold" style={{fontSize: "2.5rem", color: "#3c5365"}}>
-                            Completed <span style={{color: "#28a745"}}>Tasks</span>
+                        <h2 className="fw-bold" style={{ fontSize: "2.5rem", color: "#3c5365" }}>
+                            Completed <span style={{ color: "#28a745" }}>Tasks</span>
                         </h2>
-                        <p className="text-muted" style={{maxWidth: "600px", margin: "0 auto"}}>
+                        <p className="text-muted" style={{ maxWidth: "600px", margin: "0 auto" }}>
                             View all tasks you have successfully completed for clients.
                         </p>
                     </>
                 ) : (
                     <>
-                        <h2 className="fw-bold" style={{fontSize: "2.5rem", color: "#3c5365"}}>
-                            Completed <span style={{color: "#28a745"}}>Requests</span>
+                        <h2 className="fw-bold" style={{ fontSize: "2.5rem", color: "#3c5365" }}>
+                            Completed <span style={{ color: "#28a745" }}>Requests</span>
                         </h2>
-                        <p className="text-muted" style={{maxWidth: "600px", margin: "0 auto"}}>
+                        <p className="text-muted" style={{ maxWidth: "600px", margin: "0 auto" }}>
                             View all service requests successfully completed by taskers.
                         </p>
                     </>
                 )}
             </div>
 
-
             <Row className="g-4">
                 {completedTasks.map((task, index) => (
                     <motion.div
                         className="col-lg-4 col-md-6"
                         key={task._id}
-                        initial={{opacity: 0, y: 30}}
-                        animate={{opacity: 1, y: 0}}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{
                             duration: 0.5,
                             ease: "easeOut",
-                            delay: index * 0.1
+                            delay: index * 0.1,
                         }}
                     >
                         <Card className="h-100 shadow-sm border-0">
@@ -87,13 +94,17 @@ const CompletedTask = () => {
                                 style={{
                                     height: "200px",
                                     objectFit: "cover",
-                                    borderRadius: "10px 10px 0 0"
+                                    borderRadius: "10px 10px 0 0",
                                 }}
                             />
                             <Card.Body className="d-flex flex-column">
                                 <Card.Title
                                     className="mb-3"
-                                    style={{color: "#4f5051", fontWeight: "600", fontSize: "1.25rem"}}
+                                    style={{
+                                        color: "#4f5051",
+                                        fontWeight: "600",
+                                        fontSize: "1.25rem",
+                                    }}
                                 >
                                     {task.taskName}
                                 </Card.Title>
@@ -125,7 +136,7 @@ const CompletedTask = () => {
                                             fontSize: "15px",
                                             boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                                             textDecoration: "none",
-                                            transition: "all 0.3s ease-in-out"
+                                            transition: "all 0.3s ease-in-out",
                                         }}
                                     >
                                         View Details
@@ -140,7 +151,7 @@ const CompletedTask = () => {
                                                 fontSize: "15px",
                                                 boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                                                 textDecoration: "none",
-                                                transition: "all 0.3s ease-in-out"
+                                                transition: "all 0.3s ease-in-out",
                                             }}
                                         >
                                             Leave Feedback

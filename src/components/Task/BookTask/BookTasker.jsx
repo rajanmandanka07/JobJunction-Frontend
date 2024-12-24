@@ -23,8 +23,8 @@ const BookTasker = () => {
     });
 
     useEffect(() => {
-        // Retrieve services from localStorage
-        const storedServices = localStorage.getItem("services");
+        // Retrieve services from sessionStorage
+        const storedServices = sessionStorage.getItem("services");
 
         if (storedServices) {
             const services = JSON.parse(storedServices);

@@ -98,18 +98,18 @@ const AvailableServices = () => {
     useEffect(() => {
         // Extract search query from the URL
         const queryParams = new URLSearchParams(location.search);
-        const query = queryParams.get('query') || ''; // Default to an empty string if no query
+        const query = queryParams.get('query') || '';
         setSearchQuery(query);
     }, [location.search]);
 
     // Fetch services from backend API
-    // Fetch services from backend or local storage
+    // Fetch services from backend or session storage
     useEffect(() => {
         const fetchServices = async () => {
-            const storedServices = localStorage.getItem("services");
+            const storedServices = sessionStorage.getItem("services");
 
             if (storedServices) {
-                // Use data from localStorage
+                // Use data from sessionStorage
                 setServices(JSON.parse(storedServices));
                 setLoading(false);
             } else {
@@ -121,8 +121,8 @@ const AvailableServices = () => {
                         const fetchedServices = response.data.tasks;
                         setServices(fetchedServices);
 
-                        // Save fetched data to localStorage
-                        localStorage.setItem("services", JSON.stringify(fetchedServices));
+                        // Save fetched data to sessionStorage
+                        sessionStorage.setItem("services", JSON.stringify(fetchedServices));
                     } else {
                         console.error("Failed to fetch services:", response.data.message);
                     }

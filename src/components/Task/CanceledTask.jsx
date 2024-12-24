@@ -1,40 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Card } from "react-bootstrap";
 import { motion } from "framer-motion";
 import { useCookies } from "react-cookie";
-
-const dummyCanceledRequests = [
-    {
-        _id: "1",
-        taskName: "Fix Broken Window",
-        taskCategory: "Carpentry",
-        taskPrice: "$40",
-        timeSlot: "10:00 AM - 12:00 PM",
-        date: "2024-12-20",
-        area: "Uptown",
-        address: "101 Maple Street",
-        status: "canceled",
-        taskImage: "https://via.placeholder.com/150",
-    },
-    {
-        _id: "2",
-        taskName: "Paint Living Room",
-        taskCategory: "Painting",
-        taskPrice: "$120",
-        timeSlot: "1:00 PM - 3:00 PM",
-        date: "2024-12-21",
-        area: "City Center",
-        address: "202 Oak Avenue",
-        status: "canceled",
-        taskImage: "https://via.placeholder.com/150",
-    },
-];
+import axios from "axios";
 
 const CanceledTask = () => {
-    const [canceledRequests, setCanceledRequests] = useState(dummyCanceledRequests);
+    const [canceledRequests, setCanceledRequests] = useState([]);
     const [cookies] = useCookies(["token", "role"]);
-
     const role = cookies.role;
+
+    useEffect(() => {
+        const fetchCanceledTasks = async () => {
+            try {
+                const response = await axios.get("http://localhost:5000/api/task/canceled-task", {
+                    headers: {
+                        Authorization: `Bearer ${cookies.token}`,
+                    },
+                });
+                setCanceledRequests(response.data.canceledTasks); // Assuming the API returns an array of tasks
+            } catch (error) {
+                console.error("Error fetching canceled tasks:", error);
+            }
+        };
+
+        fetchCanceledTasks();
+    }, [cookies.token]);
 
     return (
         <Container style={{ padding: "20px" }}>

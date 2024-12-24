@@ -77,7 +77,7 @@ const ServiceCategories = () => {
     const navigate = useNavigate();
 
     const [activeTab, setActiveTab] = useState('Home Services');
-    const handleBookTasker = ({ id, taskName, taskCategory }) => {
+    const sessionStorage = ({ id, taskName, taskCategory }) => {
 
         // If using React Router, navigate to another page
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -171,7 +171,7 @@ const ServiceCategories = () => {
                                                     fontSize: '1rem',
                                                 }}
                                                 onClick={() =>
-                                                    handleBookTasker({
+                                                    sessionStorage({
                                                         id: sub.id,
                                                         taskName: sub.name,
                                                         taskCategory: item.category,
@@ -188,8 +188,6 @@ const ServiceCategories = () => {
                     </div>
                 ))}
             </div>
-
-
         </div>
     );
 };

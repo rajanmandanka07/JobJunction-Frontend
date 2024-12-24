@@ -1,52 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Card } from "react-bootstrap";
 import { motion } from "framer-motion";
 import { useCookies } from "react-cookie";
-
-const dummyAcceptedRequests = [
-    {
-        _id: "1",
-        taskName: "Fix Leaky Faucet",
-        taskCategory: "Plumbing",
-        taskPrice: "$50",
-        timeSlot: "10:00 AM - 12:00 PM",
-        date: "2024-12-25",
-        area: "Downtown",
-        address: "123 Main Street",
-        status: "accepted",
-        taskImage: "https://via.placeholder.com/150"
-    },
-    {
-        _id: "2",
-        taskName: "Assemble Furniture",
-        taskCategory: "Carpentry",
-        taskPrice: "$75",
-        timeSlot: "2:00 PM - 4:00 PM",
-        date: "2024-12-26",
-        area: "Midtown",
-        address: "456 Center Ave",
-        status: "accepted",
-        taskImage: "https://via.placeholder.com/150"
-    },
-    {
-        _id: "3",
-        taskName: "Garden Maintenance",
-        taskCategory: "Gardening",
-        taskPrice: "$60",
-        timeSlot: "9:00 AM - 11:00 AM",
-        date: "2024-12-27",
-        area: "Westside",
-        address: "789 West Road",
-        status: "accepted",
-        taskImage: "https://via.placeholder.com/150"
-    }
-];
+import axios from "axios";
 
 const AcceptedTask = () => {
-    const [acceptedRequests, setAcceptedRequests] = useState(dummyAcceptedRequests);
+    const [acceptedRequests, setAcceptedRequests] = useState([]);
     const [cookies] = useCookies(["token", "role"]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const role = cookies.role;
+    const token = cookies.token; // Token from cookies
+
+    useEffect(() => {
+        const fetchAcceptedTasks = async () => {
+            try {
+                const response = await axios.get("http://localhost:5000/api/task/accepted-task", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                console.log(response.data.acceptedTasks);
+                setAcceptedRequests(response.data.acceptedTasks || []); // Adjust based on API response structure
+                setLoading(false);
+            } catch (err) {
+                console.error("Error fetching accepted tasks:", err);
+                setError(err.message);
+                setLoading(false);
+            }
+        };
+
+        fetchAcceptedTasks();
+    }, [token]);
+
+    if (loading) {
+        return <div>Loading tasks...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
     return (
         <Container style={{ padding: "20px" }}>
             <div className="text-center mb-4">
@@ -81,7 +76,7 @@ const AcceptedTask = () => {
                         transition={{
                             duration: 0.5,
                             ease: "easeOut",
-                            delay: index * 0.1
+                            delay: index * 0.1,
                         }}
                     >
                         <Card className="h-100 shadow-sm border-0 position-relative">
@@ -92,7 +87,7 @@ const AcceptedTask = () => {
                                 style={{
                                     height: "200px",
                                     objectFit: "cover",
-                                    borderRadius: "10px 10px 0 0"
+                                    borderRadius: "10px 10px 0 0",
                                 }}
                             />
                             <div
@@ -108,7 +103,7 @@ const AcceptedTask = () => {
                                     borderRadius: "20px",
                                     boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
                                     textAlign: "center",
-                                    textTransform: "capitalize"
+                                    textTransform: "capitalize",
                                 }}
                             >
                                 {request.status}
@@ -131,7 +126,8 @@ const AcceptedTask = () => {
                                         <strong>Time Slot:</strong> {request.timeSlot}
                                     </Card.Text>
                                     <Card.Text>
-                                        <strong>Date:</strong> {new Date(request.date).toLocaleDateString()}
+                                        <strong>Date:</strong>{" "}
+                                        {new Date(request.date).toLocaleDateString()}
                                     </Card.Text>
                                     <Card.Text>
                                         <strong>Area:</strong> {request.area}
@@ -150,7 +146,7 @@ const AcceptedTask = () => {
                                             fontSize: "15px",
                                             boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                                             textDecoration: "none",
-                                            transition: "all 0.3s ease-in-out"
+                                            transition: "all 0.3s ease-in-out",
                                         }}
                                     >
                                         View Request
@@ -171,23 +167,23 @@ const AcceptedTask = () => {
                                             >
                                                 Mark Complete
                                             </a>
-                                            <a
-                                                href="#"
-                                                className="btn btn-secondary"
-                                                style={{
-                                                    borderRadius: "20px",
-                                                    padding: "10px 20px",
-                                                    fontSize: "15px",
-                                                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                                    textDecoration: "none",
-                                                    transition: "all 0.3s ease-in-out"
-                                                }}
-                                            >
-                                                Cancel
-                                            </a>
+
                                         </>
                                     )}
-
+                                    <a
+                                        href="#"
+                                        className="btn btn-secondary"
+                                        style={{
+                                            borderRadius: "20px",
+                                            padding: "10px 20px",
+                                            fontSize: "15px",
+                                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                            textDecoration: "none",
+                                            transition: "all 0.3s ease-in-out",
+                                        }}
+                                    >
+                                        Cancel
+                                    </a>
                                 </div>
                             </Card.Body>
                         </Card>
