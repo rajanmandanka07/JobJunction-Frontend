@@ -6,24 +6,40 @@ import PopularProjects from "./Home/PopularProjects.jsx";
 import TopRatings from "./Home/TopRatings.jsx";
 import ThreeStepsToBook from "./Home/ThreeStepsToBook.jsx";
 import QuickSuggestions from "./Home/QuickSuggestions.jsx";
+import { useEffect } from "react";
+import axios from "axios";
 
 const Home = () => {
     const components = [
-        // eslint-disable-next-line react/jsx-key
         <Search />,
-        // eslint-disable-next-line react/jsx-key
         <ServiceCategories />,
-        // eslint-disable-next-line react/jsx-key
         <Achievements />,
-        // eslint-disable-next-line react/jsx-key
         <PopularProjects />,
-        // eslint-disable-next-line react/jsx-key
         <TopRatings />,
-        // eslint-disable-next-line react/jsx-key
         <ThreeStepsToBook />,
-        // eslint-disable-next-line react/jsx-key
         <QuickSuggestions />,
     ];
+
+    useEffect(() => {
+        // Fetch data without blocking component rendering
+        const fetchTasks = async () => {
+            try {
+                const response = await axios.get("http://localhost:5000/api/task/get-all-task");
+                if (response.data.success) {
+                    const fetchedServices = response.data.tasks;
+
+                    // Save fetched data to sessionStorage
+                    sessionStorage.setItem("services", JSON.stringify(fetchedServices));
+                } else {
+                    console.error("Failed to fetch services:", response.data.message);
+                }
+            } catch (error) {
+                console.error("Error fetching services:", error);
+            }
+        };
+
+        fetchTasks();
+    }, []);
 
     return (
         <div>

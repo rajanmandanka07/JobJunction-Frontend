@@ -86,77 +86,123 @@ const CompletedTask = () => {
                             delay: index * 0.1,
                         }}
                     >
-                        <Card className="h-100 shadow-sm border-0">
+                        <Card className="h-100 shadow-lg border-0 position-relative rounded" style={{ overflow: "hidden" }}>
+                            {/* Task Image */}
                             <Card.Img
                                 variant="top"
-                                src={task.taskImage}
-                                alt={task.taskName}
+                                src={task.taskImage || "https://via.placeholder.com/150"}
+                                alt={task.taskTitle}
                                 style={{
                                     height: "200px",
                                     objectFit: "cover",
-                                    borderRadius: "10px 10px 0 0",
+                                    transition: "transform 0.3s ease",
                                 }}
+                                className="rounded-top"
+                                onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+                                onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
                             />
-                            <Card.Body className="d-flex flex-column">
+
+                            {/* Status Badge */}
+                            <div
+                                className="position-absolute shadow-sm d-flex align-items-center justify-content-center gap-2"
+                                style={{
+                                    top: "15px",
+                                    right: "15px",
+                                    backgroundColor: task.status === "completed" ? "#d4edda" : "rgba(255, 255, 255, 0.9)",
+                                    color: task.status === "completed" ? "#155724" : "#2b435e",
+                                    fontWeight: "600",
+                                    fontSize: "0.9rem",
+                                    padding: "6px 12px",
+                                    borderRadius: "20px",
+                                    textAlign: "center",
+                                    textTransform: "capitalize",
+                                    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+                                    border: task.status === "completed" ? "1px solid #c3e6cb" : "none",
+                                }}
+                            >
+                                {task.status === "completed" && (
+                                    <i className="bi bi-check-circle-fill" style={{ fontSize: "1rem" }}></i>
+                                )}
+                                {task.status}
+                            </div>
+
+
+                            {/* Card Body */}
+                            <Card.Body className="d-flex flex-column px-4">
+                                {/* Task Title */}
                                 <Card.Title
-                                    className="mb-3"
-                                    style={{
-                                        color: "#4f5051",
-                                        fontWeight: "600",
-                                        fontSize: "1.25rem",
-                                    }}
+                                    className="mb-2 text-primary"
+                                    style={{ fontWeight: "700", fontSize: "1.3rem" }}
                                 >
-                                    {task.taskName}
+                                    {task.taskTitle}
                                 </Card.Title>
-                                <div className="mb-4">
-                                    <Card.Text>
+
+                                {/* Task Description */}
+                                <Card.Text className="text-muted mb-4" style={{ fontSize: "0.9rem" }}>
+                                    {task.taskDescription}
+                                </Card.Text>
+
+                                {/* Task Details */}
+                                <ul className="list-unstyled mb-4">
+                                    <li>
+                                        <i className="bi bi-tag-fill text-info me-2"></i>
                                         <strong>Category:</strong> {task.taskCategory}
-                                    </Card.Text>
-                                    <Card.Text>
+                                    </li>
+                                    <li>
+                                        <i className="bi bi-currency-rupee text-success me-2"></i>
                                         <strong>Price:</strong> {task.taskPrice}
-                                    </Card.Text>
-                                    <Card.Text>
-                                        <strong>Completion Date:</strong>{" "}
-                                        {new Date(task.completionDate).toLocaleDateString()}
-                                    </Card.Text>
-                                    <Card.Text>
+                                    </li>
+                                    <li>
+                                        <i className="bi bi-person-fill text-warning me-2"></i>
+                                        <strong>User Description:</strong> {task.userDescription}
+                                    </li>
+                                    <li>
+                                        <i className="bi bi-clock text-warning me-2"></i>
+                                        <strong>Time Slot:</strong> {task.timeSlot}
+                                    </li>
+                                    <li>
+                                        <i className="bi bi-calendar text-danger me-2"></i>
+                                        <strong>Date:</strong> {new Date(task.date).toLocaleDateString()}
+                                    </li>
+                                    <li>
+                                        <i className="bi bi-geo-alt text-secondary me-2"></i>
                                         <strong>Area:</strong> {task.area}
-                                    </Card.Text>
-                                    <Card.Text>
+                                    </li>
+                                    <li>
+                                        <i className="bi bi-house-door-fill text-primary me-2"></i>
                                         <strong>Address:</strong> {task.address}
-                                    </Card.Text>
-                                </div>
-                                <div className="d-flex justify-content-between mt-auto">
+                                    </li>
+                                    <li>
+                                        <i className="bi bi-calendar-check-fill text-secondary me-2"></i>
+                                        <strong>Created At:</strong> {new Date(task.createdAt).toLocaleString()}
+                                    </li>
+                                    <li>
+                                        <i className="bi bi-pencil-square text-primary me-2"></i>
+                                        <strong>Updated At:</strong> {new Date(task.updatedAt).toLocaleString()}
+                                    </li>
+                                    <li>
+                                        <i className="bi bi-person-badge-fill text-info me-2"></i>
+                                        <strong>User ID:</strong> {task.userId}
+                                    </li>
+                                    <li>
+                                        <i className="bi bi-person-badge-fill text-info me-2"></i>
+                                        <strong>Tasker ID:</strong> {task.taskerId}
+                                    </li>
+                                </ul>
+
+                                {/* Buttons Section */}
+                                <div className="d-flex justify-content-between align-items-center mt-auto gap-2">
                                     <a
                                         href="#"
-                                        className="btn btn-primary"
+                                        className="btn btn-primary w-100"
                                         style={{
-                                            borderRadius: "20px",
+                                            borderRadius: "10px",
                                             padding: "10px 20px",
                                             fontSize: "15px",
-                                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                            textDecoration: "none",
-                                            transition: "all 0.3s ease-in-out",
                                         }}
                                     >
                                         View Details
                                     </a>
-                                    {role === "user" && (
-                                        <a
-                                            href="#"
-                                            className="btn btn-warning"
-                                            style={{
-                                                borderRadius: "20px",
-                                                padding: "10px 20px",
-                                                fontSize: "15px",
-                                                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                                textDecoration: "none",
-                                                transition: "all 0.3s ease-in-out",
-                                            }}
-                                        >
-                                            Leave Feedback
-                                        </a>
-                                    )}
                                 </div>
                             </Card.Body>
                         </Card>
