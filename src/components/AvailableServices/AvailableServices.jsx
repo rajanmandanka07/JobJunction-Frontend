@@ -248,22 +248,33 @@ const AvailableServices = () => {
                                 />
                                 {/* Price Badge */}
                                 <div
-                                    className="position-absolute"
+                                    className="position-absolute d-flex align-items-center justify-content-center gap-2"
                                     style={{
                                         top: "10px",
                                         right: "10px",
-                                        backgroundColor: "rgba(248, 249, 250, 0.7)",
-                                        color: "#2b435e",
+                                        background: "rgba(40, 71, 106, 0.85)", // Adding transparency (0.85 opacity)
+                                        color: "#ffffff", // White text for contrast
                                         fontWeight: "600",
                                         fontSize: "1rem",
-                                        padding: "5px 15px",
+                                        padding: "8px 20px",
                                         borderRadius: "20px",
-                                        boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
+                                        boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.15)", // Balanced shadow for elevation
                                         textAlign: "center",
+                                        cursor: "default",
+                                        transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = "scale(1.1)";
+                                        e.currentTarget.style.boxShadow = "0px 5px 10px rgba(0, 0, 0, 0.2)";
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = "scale(1)";
+                                        e.currentTarget.style.boxShadow = "0px 3px 6px rgba(0, 0, 0, 0.15)";
                                     }}
                                 >
                                     {service.price}
                                 </div>
+
                                 <div className="card-body d-flex flex-column">
                                     <h5
                                         className="card-title"

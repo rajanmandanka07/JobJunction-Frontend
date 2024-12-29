@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { Card, Row, Container, Spinner, Alert, Toast } from "react-bootstrap";
+import { Card, Row, Container, Spinner, Alert, Modal, Button } from "react-bootstrap";
 import { motion } from "framer-motion";
+import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 
 const PendingRequest = () => {
     const [pendingRequests, setPendingRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [toastMessage, setToastMessage] = useState("");
-    const [toastVariant, setToastVariant] = useState("success");
+    const [showModal, setShowModal] = useState(false);
+    const [selectedTask, setSelectedTask] = useState(null);
+    const [action, setAction] = useState(""); // track whether the action is 'accept' or 'cancel'
     const [cookies] = useCookies(["token", "role"]);
 
     const role = cookies.role;
@@ -36,6 +38,21 @@ const PendingRequest = () => {
         fetchPendingRequests();
     }, [token]);
 
+    const handleTaskAction = (taskId, action) => {
+        setSelectedTask(taskId);
+        setAction(action);
+        setShowModal(true); // Show confirmation modal
+    };
+
+    const confirmAction = async () => {
+        if (action === "accept") {
+            await acceptTask(selectedTask);
+        } else if (action === "cancel") {
+            await cancelTask(selectedTask);
+        }
+        setShowModal(false); // Hide modal after action
+    };
+
     const acceptTask = async (taskId) => {
         try {
             const response = await axios.post(
@@ -49,14 +66,12 @@ const PendingRequest = () => {
             );
             console.log(response);
             // Success handling
-            setToastMessage("Task accepted successfully!");
-            setToastVariant("success");
+            toast.success("Task accepted successfully!");
             // Remove the accepted task from the list
             setPendingRequests((prevRequests) => prevRequests.filter((request) => request._id !== taskId));
         } catch (err) {
             // Error handling
-            setToastMessage("Failed to accept the task. Please try again later.");
-            setToastVariant("danger");
+            toast.error("Failed to accept the task. Please try again later.");
         }
     };
 
@@ -71,16 +86,13 @@ const PendingRequest = () => {
                     },
                 }
             );
-            setToastMessage("Task canceled successfully!");
-            setToastVariant("success");
+            toast.success("Task canceled successfully!");
             // Remove the canceled task from the list
             setPendingRequests((prevRequests) => prevRequests.filter((request) => request._id !== taskId));
         } catch (err) {
-            setToastMessage("Failed to cancel the task. Please try again later.");
-            setToastVariant("danger");
+            toast.error("Failed to cancel the task. Please try again later.");
         }
     };
-
 
     return (
         <Container style={{ padding: "20px" }}>
@@ -106,19 +118,6 @@ const PendingRequest = () => {
                     </>
                 )}
             </div>
-
-            {/* Toast for feedback */}
-            {toastMessage && (
-                <Toast
-                    onClose={() => setToastMessage("")}
-                    show={true}
-                    delay={3000}
-                    autohide
-                    className={`text-white bg-${toastVariant} mb-4`}
-                >
-                    <Toast.Body>{toastMessage}</Toast.Body>
-                </Toast>
-            )}
 
             {/* Loading or Error State */}
             {loading ? (
@@ -146,7 +145,7 @@ const PendingRequest = () => {
                                         delay: index * 0.1,
                                     }}
                                 >
-                                    {/*Card for request.*/}
+                                    {/*Card for request*/}
                                     <Card className="h-100 shadow-lg border-0 position-relative rounded" style={{ overflow: "hidden" }}>
                                         {/* Task Image */}
                                         <Card.Img
@@ -181,20 +180,14 @@ const PendingRequest = () => {
                                                 border: request.status === "pending" ? "1px solid #ffeeba" : "none",
                                             }}
                                         >
-                                            {request.status === "pending" && (
-                                                <i className="bi bi-hourglass-split" style={{ fontSize: "1rem" }}></i>
-                                            )}
+                                            {request.status === "pending" && <i className="bi bi-hourglass-split" style={{ fontSize: "1rem" }}></i>}
                                             {request.status}
                                         </div>
-
 
                                         {/* Card Body */}
                                         <Card.Body className="d-flex flex-column px-4">
                                             {/* Task Title */}
-                                            <Card.Title
-                                                className="mb-2 text-primary"
-                                                style={{ fontWeight: "700", fontSize: "1.3rem" }}
-                                            >
+                                            <Card.Title className="mb-2 text-primary" style={{ fontWeight: "700", fontSize: "1.3rem" }}>
                                                 {request.taskTitle}
                                             </Card.Title>
 
@@ -233,22 +226,6 @@ const PendingRequest = () => {
                                                     <i className="bi bi-house-door-fill text-primary me-2"></i>
                                                     <strong>Address:</strong> {request.address}
                                                 </li>
-                                                <li>
-                                                    <i className="bi bi-person-badge-fill text-info me-2"></i>
-                                                    <strong>User ID:</strong> {request.userId}
-                                                </li>
-                                                <li>
-                                                    <i className="bi bi-calendar-check-fill text-secondary me-2"></i>
-                                                    <strong>Created At:</strong> {new Date(request.createdAt).toLocaleString()}
-                                                </li>
-                                                <li>
-                                                    <i className="bi bi-pencil-square text-primary me-2"></i>
-                                                    <strong>Updated At:</strong> {new Date(request.updatedAt).toLocaleString()}
-                                                </li>
-                                                <li>
-                                                    <i className="bi bi-code-square text-dark me-2"></i>
-                                                    <strong>Task ID:</strong> {request._id}
-                                                </li>
                                             </ul>
 
                                             {/* Buttons Section */}
@@ -273,7 +250,7 @@ const PendingRequest = () => {
                                                             padding: "10px 10px",
                                                             fontSize: "15px",
                                                         }}
-                                                        onClick={() => cancelTask(request._id)}
+                                                        onClick={() => handleTaskAction(request._id, "cancel")}
                                                     >
                                                         Cancel
                                                     </button>
@@ -287,7 +264,7 @@ const PendingRequest = () => {
                                                             padding: "10px 10px",
                                                             fontSize: "15px",
                                                         }}
-                                                        onClick={() => acceptTask(request._id)}
+                                                        onClick={() => handleTaskAction(request._id, "accept")}
                                                     >
                                                         Accept Task
                                                     </button>
@@ -295,21 +272,37 @@ const PendingRequest = () => {
                                             </div>
                                         </Card.Body>
                                     </Card>
-
                                 </motion.div>
                             ))}
                         </Row>
                     ) : (
                         <div className="text-center">
-                            <p className="text-muted">
-                                {role === "tasker"
-                                    ? "No tasks available for you at the moment."
-                                    : "No pending requests at the moment."}
-                            </p>
+                            <h5 className="text-muted">No pending requests available.</h5>
                         </div>
                     )}
                 </>
             )}
+
+            {/* Confirmation Modal */}
+            <Modal show={showModal} onHide={() => setShowModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirm Action</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to {action} this task?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowModal(false)}>
+                        Cancel
+                    </Button>
+                    <Button variant="primary" onClick={confirmAction}>
+                        Confirm
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            {/* Toast Container */}
+            <ToastContainer autoClose={1000} hideProgressBar={true} />
         </Container>
     );
 };

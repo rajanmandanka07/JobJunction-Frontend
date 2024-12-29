@@ -3,6 +3,7 @@ import { Container, Row, Card, Modal, Button, Form } from "react-bootstrap";
 import { motion } from "framer-motion";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 const AcceptedTask = () => {
     const [acceptedRequests, setAcceptedRequests] = useState([]);
@@ -48,14 +49,14 @@ const AcceptedTask = () => {
                 }
             );
             console.log("Task marked as complete:", response.data);
-
+            toast.success("Task marked as complete");
             // Remove the completed task from the list
             setAcceptedRequests((prevRequests) =>
                 prevRequests.filter((request) => request._id !== taskId)
             );
         } catch (err) {
             console.error("Error marking task as complete:", err);
-            alert("Failed to mark task as complete. Please try again.");
+            toast.error("Failed to mark task as complete. Please try again.");
         }
     };
 
@@ -71,7 +72,7 @@ const AcceptedTask = () => {
                 }
             );
             console.log("Task cancelled successfully:", response.data);
-
+            toast.success("Task cancelled successfully.");
             // Remove the cancelled task from the list
             setAcceptedRequests((prevRequests) =>
                 prevRequests.filter((request) => request._id !== selectedTaskId)
@@ -80,7 +81,7 @@ const AcceptedTask = () => {
             setCancelReason("");
         } catch (err) {
             console.error("Error cancelling task:", err);
-            alert("Failed to cancel task. Please try again.");
+            toast.error("Failed to cancel task. Please try again.");
         }
     };
 
@@ -320,6 +321,9 @@ const AcceptedTask = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            {/* Toast Container */}
+            <ToastContainer autoClose={1000} hideProgressBar={true} />
         </Container>
     );
 };

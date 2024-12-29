@@ -105,11 +105,11 @@ const Footer = () => {
                         </p>
                         <p className="small mb-1">
                             <i className="bi bi-telephone-fill me-2"></i>
-                            +1 234 567 890
+                            +1 8866720805
                         </p>
                         <p className="small">
                             <i className="bi bi-geo-alt-fill me-2"></i>
-                            123 Job Junction Street, Worktown, USA
+                            Rajkot, Gujrat, INDIA
                         </p>
                     </div>
                 </div>
