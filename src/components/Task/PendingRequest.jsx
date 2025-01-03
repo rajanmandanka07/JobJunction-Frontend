@@ -29,7 +29,7 @@ const PendingRequest = () => {
                 console.log(response.data);
                 setPendingRequests(response.data.data);
             } catch (err) {
-                setError("Failed to fetch pending requests. Please try again later.");
+                setError("No pending requests available. Please try again later.");
             } finally {
                 setLoading(false);
             }
@@ -126,14 +126,14 @@ const PendingRequest = () => {
                     <p className="text-muted mt-3">Loading pending requests...</p>
                 </div>
             ) : error ? (
-                <Alert variant="danger" className="text-center">
-                    {error}
-                </Alert>
+                <div className="text-center">
+                    <h5 className="text-muted">No pending requests available.</h5>
+                </div>
             ) : (
                 <>
                     {pendingRequests.length > 0 ? (
                         <Row className="g-4">
-                            {pendingRequests.map((request, index) => (
+                        {pendingRequests.map((request, index) => (
                                 <motion.div
                                     className="col-lg-4 col-md-6"
                                     key={request._id}
@@ -282,6 +282,8 @@ const PendingRequest = () => {
                     )}
                 </>
             )}
+
+            {/* */}
 
             {/* Confirmation Modal */}
             <Modal show={showModal} onHide={() => setShowModal(false)}>

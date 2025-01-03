@@ -49,151 +49,156 @@ const CanceledTask = () => {
                     </>
                 )}
             </div>
-
-            <Row className="g-4">
-                {canceledRequests.map((request, index) => (
-                    <motion.div
-                        className="col-lg-4 col-md-6"
-                        key={request._id}
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                            duration: 0.5,
-                            ease: "easeOut",
-                            delay: index * 0.1,
-                        }}
-                    >
-                        <Card className="h-100 shadow-lg border-0 position-relative rounded" style={{ overflow: "hidden" }}>
-                            {/* Task Image */}
-                            <Card.Img
-                                variant="top"
-                                src={request.taskImage || "https://via.placeholder.com/150"}
-                                alt={request.taskTitle}
-                                style={{
-                                    height: "200px",
-                                    objectFit: "cover",
-                                    transition: "transform 0.3s ease",
-                                }}
-                                className="rounded-top"
-                                onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-                                onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
-                            />
-
-                            {/* Status Badge */}
-                            <div
-                                className="position-absolute shadow-sm d-flex align-items-center justify-content-center gap-2"
-                                style={{
-                                    top: "15px",
-                                    right: "15px",
-                                    backgroundColor: request.status === "canceled" ? "#f8d7da" : "rgba(255, 255, 255, 0.9)",
-                                    color: request.status === "canceled" ? "#721c24" : "#2b435e",
-                                    fontWeight: "600",
-                                    fontSize: "0.9rem",
-                                    padding: "6px 12px",
-                                    borderRadius: "20px",
-                                    textAlign: "center",
-                                    textTransform: "capitalize",
-                                    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                                    border: request.status === "canceled" ? "1px solid #f5c6cb" : "none",
-                                }}
-                            >
-                                {request.status === "canceled" && (
-                                    <i className="bi bi-x-circle-fill" style={{ fontSize: "1rem" }}></i>
-                                )}
-                                {request.status}
-                            </div>
-
-
-                            {/* Card Body */}
-                            <Card.Body className="d-flex flex-column px-4">
-                                {/* Task Title */}
-                                <Card.Title
-                                    className="mb-3 text-primary"
+            {canceledRequests.length > 0 ? (
+                <Row className="g-4">
+                    {canceledRequests.map((request, index) => (
+                        <motion.div
+                            className="col-lg-4 col-md-6"
+                            key={request._id}
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                                duration: 0.5,
+                                ease: "easeOut",
+                                delay: index * 0.1,
+                            }}
+                        >
+                            <Card className="h-100 shadow-lg border-0 position-relative rounded" style={{ overflow: "hidden" }}>
+                                {/* Task Image */}
+                                <Card.Img
+                                    variant="top"
+                                    src={request.taskImage || "https://via.placeholder.com/150"}
+                                    alt={request.taskTitle}
                                     style={{
-                                        fontWeight: "700",
-                                        fontSize: "1.4rem",
+                                        height: "200px",
+                                        objectFit: "cover",
+                                        transition: "transform 0.3s ease",
+                                    }}
+                                    className="rounded-top"
+                                    onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+                                    onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                                />
+
+                                {/* Status Badge */}
+                                <div
+                                    className="position-absolute shadow-sm d-flex align-items-center justify-content-center gap-2"
+                                    style={{
+                                        top: "15px",
+                                        right: "15px",
+                                        backgroundColor: request.status === "canceled" ? "#f8d7da" : "rgba(255, 255, 255, 0.9)",
+                                        color: request.status === "canceled" ? "#721c24" : "#2b435e",
+                                        fontWeight: "600",
+                                        fontSize: "0.9rem",
+                                        padding: "6px 12px",
+                                        borderRadius: "20px",
+                                        textAlign: "center",
+                                        textTransform: "capitalize",
+                                        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+                                        border: request.status === "canceled" ? "1px solid #f5c6cb" : "none",
                                     }}
                                 >
-                                    {request.taskTitle}
-                                </Card.Title>
+                                    {request.status === "canceled" && (
+                                        <i className="bi bi-x-circle-fill" style={{ fontSize: "1rem" }}></i>
+                                    )}
+                                    {request.status}
+                                </div>
 
-                                {/* Task Description */}
-                                <Card.Text className="text-muted mb-3" style={{ fontSize: "0.95rem" }}>
-                                    {request.taskDescription}
-                                </Card.Text>
 
-                                {/* Task Details */}
-                                <ul className="list-unstyled mb-4">
-                                    <li>
-                                        <i className="bi bi-tag-fill text-info me-2"></i>
-                                        <strong>Category:</strong> {request.taskCategory}
-                                    </li>
-                                    <li>
-                                        <i className="bi bi-currency-rupee text-success me-2"></i>
-                                        <strong>Price:</strong> {request.taskPrice}
-                                    </li>
-                                    <li>
-                                        <i className="bi bi-clock text-warning me-2"></i>
-                                        <strong>Time Slot:</strong> {request.timeSlot}
-                                    </li>
-                                    <li>
-                                        <i className="bi bi-calendar text-danger me-2"></i>
-                                        <strong>Date:</strong> {new Date(request.date).toLocaleDateString()}
-                                    </li>
-                                    <li>
-                                        <i className="bi bi-geo-alt text-secondary me-2"></i>
-                                        <strong>Area:</strong> {request.area}
-                                    </li>
-                                    <li>
-                                        <i className="bi bi-house-door-fill text-primary me-2"></i>
-                                        <strong>Address:</strong> {request.address}
-                                    </li>
-                                    <li>
-                                        <i className="bi bi-person-badge-fill text-info me-2"></i>
-                                        <strong>User ID:</strong> {request.userId}
-                                    </li>
-                                    <li>
-                                        <i className="bi bi-person-badge-fill text-info me-2"></i>
-                                        <strong>Tasker ID:</strong> {request.taskerId}
-                                    </li>
-                                    <li>
-                                        <i className="bi bi-shield-fill text-danger text-info me-2"></i>
-                                        <strong>canceledBy: </strong> {request.canceledBy}
-                                    </li>
-                                    <li>
-                                        <i className="bi bi-person-fill text-success text-info me-2"></i>
-                                        <strong>Reason: </strong> {request.reason}
-                                    </li>
-                                    <li>
-                                        <i className="bi bi-calendar-check-fill text-secondary me-2"></i>
-                                        <strong>Created At:</strong> {new Date(request.createdAt).toLocaleString()}
-                                    </li>
-                                    <li>
-                                        <i className="bi bi-pencil-square text-primary me-2"></i>
-                                        <strong>Updated At:</strong> {new Date(request.updatedAt).toLocaleString()}
-                                    </li>
-                                </ul>
-
-                                {/* Buttons Section */}
-                                <div className="d-flex justify-content-between align-items-center mt-auto gap-2">
-                                    <a
-                                        href="#"
-                                        className="btn btn-primary w-100"
+                                {/* Card Body */}
+                                <Card.Body className="d-flex flex-column px-4">
+                                    {/* Task Title */}
+                                    <Card.Title
+                                        className="mb-3 text-primary"
                                         style={{
-                                            borderRadius: "10px",
-                                            padding: "10px 20px",
-                                            fontSize: "15px",
+                                            fontWeight: "700",
+                                            fontSize: "1.4rem",
                                         }}
                                     >
-                                        View Details
-                                    </a>
-                                </div>
-                            </Card.Body>
-                        </Card>
+                                        {request.taskTitle}
+                                    </Card.Title>
 
-                    </motion.div>
-                ))}
-            </Row>
+                                    {/* Task Description */}
+                                    <Card.Text className="text-muted mb-3" style={{ fontSize: "0.95rem" }}>
+                                        {request.taskDescription}
+                                    </Card.Text>
+
+                                    {/* Task Details */}
+                                    <ul className="list-unstyled mb-4">
+                                        <li>
+                                            <i className="bi bi-tag-fill text-info me-2"></i>
+                                            <strong>Category:</strong> {request.taskCategory}
+                                        </li>
+                                        <li>
+                                            <i className="bi bi-currency-rupee text-success me-2"></i>
+                                            <strong>Price:</strong> {request.taskPrice}
+                                        </li>
+                                        <li>
+                                            <i className="bi bi-clock text-warning me-2"></i>
+                                            <strong>Time Slot:</strong> {request.timeSlot}
+                                        </li>
+                                        <li>
+                                            <i className="bi bi-calendar text-danger me-2"></i>
+                                            <strong>Date:</strong> {new Date(request.date).toLocaleDateString()}
+                                        </li>
+                                        <li>
+                                            <i className="bi bi-geo-alt text-secondary me-2"></i>
+                                            <strong>Area:</strong> {request.area}
+                                        </li>
+                                        <li>
+                                            <i className="bi bi-house-door-fill text-primary me-2"></i>
+                                            <strong>Address:</strong> {request.address}
+                                        </li>
+                                        <li>
+                                            <i className="bi bi-person-badge-fill text-info me-2"></i>
+                                            <strong>User ID:</strong> {request.userId}
+                                        </li>
+                                        <li>
+                                            <i className="bi bi-person-badge-fill text-info me-2"></i>
+                                            <strong>Tasker ID:</strong> {request.taskerId}
+                                        </li>
+                                        <li>
+                                            <i className="bi bi-shield-fill text-danger text-info me-2"></i>
+                                            <strong>canceledBy: </strong> {request.canceledBy}
+                                        </li>
+                                        <li>
+                                            <i className="bi bi-person-fill text-success text-info me-2"></i>
+                                            <strong>Reason: </strong> {request.reason}
+                                        </li>
+                                        <li>
+                                            <i className="bi bi-calendar-check-fill text-secondary me-2"></i>
+                                            <strong>Created At:</strong> {new Date(request.createdAt).toLocaleString()}
+                                        </li>
+                                        <li>
+                                            <i className="bi bi-pencil-square text-primary me-2"></i>
+                                            <strong>Updated At:</strong> {new Date(request.updatedAt).toLocaleString()}
+                                        </li>
+                                    </ul>
+
+                                    {/* Buttons Section */}
+                                    <div className="d-flex justify-content-between align-items-center mt-auto gap-2">
+                                        <a
+                                            href="#"
+                                            className="btn btn-primary w-100"
+                                            style={{
+                                                borderRadius: "10px",
+                                                padding: "10px 20px",
+                                                fontSize: "15px",
+                                            }}
+                                        >
+                                            View Details
+                                        </a>
+                                    </div>
+                                </Card.Body>
+                            </Card>
+
+                        </motion.div>
+                    ))}
+                </Row>
+            ) : (
+                <div className="text-center">
+                    <h5 className="text-muted">No Accepted requests available.</h5>
+                </div>
+            )}
         </Container>
     );
 };
