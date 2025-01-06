@@ -99,7 +99,9 @@ const AcceptedTask = () => {
         return <div>Loading tasks...</div>;
     }
 
-
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
     return (
         <Container style={{ padding: "20px" }}>
